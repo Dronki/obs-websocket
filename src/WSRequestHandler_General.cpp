@@ -117,12 +117,12 @@ void WSRequestHandler::HandleAuthenticate(WSRequestHandler* req) {
 		return;
 	}
 
-	WSEvents::Instance->HeartbeatIsActive =
+	WSEvents::Current()->HeartbeatIsActive =
 		obs_data_get_bool(req->data, "enable");
 
 	OBSDataAutoRelease response = obs_data_create();
 	obs_data_set_bool(response, "enable",
-		WSEvents::Instance->HeartbeatIsActive);
+		WSEvents::Current()->HeartbeatIsActive);
 	req->SendOKResponse(response);
 }
 

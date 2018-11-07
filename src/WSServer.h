@@ -36,7 +36,7 @@ class WSServer : public QObject {
 		void Start(quint16 port);
 		void Stop();
 		void broadcast(QString message);
-		static WSServer* Instance;
+		static WSServer* Current();
 
 	private slots:
 		void onNewConnection();
@@ -44,6 +44,7 @@ class WSServer : public QObject {
 		void onSocketDisconnected();
 
 	private:
+		static WSServer* _instance;
 		QWebSocketServer* _wsServer;
 		QList<QWebSocket*> _clients;
 		QMutex _clMutex;

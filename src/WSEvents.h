@@ -30,9 +30,6 @@ class WSEvents : public QObject {
   public:
 	explicit WSEvents(WSServer* srv);
 	~WSEvents();
-	static void FrontendEventHandler(
-		enum obs_frontend_event event, void* privateData);
-	static WSEvents* Instance;
 	void connectSceneSignals(obs_source_t* scene);
 
 	void hookTransitionBeginEvent();
@@ -44,6 +41,11 @@ class WSEvents : public QObject {
 
 	bool HeartbeatIsActive;
 
+	static void FrontendEventHandler(
+		enum obs_frontend_event event, void* privateData);
+	static WSEvents* Current();
+	static WSEvents* Reset(WSEvents* newInstance);
+
   private slots:
 	void deferredInitOperations();
 	void StreamStatus();
@@ -51,6 +53,7 @@ class WSEvents : public QObject {
 	void TransitionDurationChanged(int ms);
 
   private:
+	static WSEvents* _instance;
 	WSServer* _srv;
 	OBSSource currentScene;
 

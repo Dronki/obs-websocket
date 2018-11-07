@@ -65,7 +65,7 @@ void *calldata_get_ptr(const calldata_t *data, const char *name)
 	return ptr;
 }
 
-WSEvents *WSEvents::Instance = nullptr;
+WSEvents *WSEvents::_instance = nullptr;
 
 WSEvents::WSEvents(WSServer *srv)
 {
@@ -1029,4 +1029,15 @@ void WSEvents::OnStudioModeSwitched(bool checked)
 	obs_data_set_bool(data, "new-state", checked);
 
 	broadcastUpdate("StudioModeSwitched", data);
+}
+
+WSEvents* WSEvents::Current()
+{
+	return _instance;
+}
+
+WSEvents* WSEvents::Reset(WSEvents* newInstance)
+{
+	_instance = newInstance;
+	return _instance;
 }

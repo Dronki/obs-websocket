@@ -30,7 +30,7 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 
 QT_USE_NAMESPACE
 
-WSServer* WSServer::Instance = nullptr;
+WSServer* WSServer::_instance = new WSServer();
 
 WSServer::WSServer(QObject* parent)
 	: QObject(parent),
@@ -165,4 +165,9 @@ void WSServer::onSocketDisconnected() {
 
 		Utils::SysTrayNotify(msg, QSystemTrayIcon::Information, title);
 	}
+}
+
+WSServer* WSServer::Current()
+{
+	return _instance;
 }

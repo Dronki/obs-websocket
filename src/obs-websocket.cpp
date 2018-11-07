@@ -48,11 +48,12 @@ bool obs_module_load(void) {
 	auto config = Config::Current();
 	config->Load();
 
-	WSServer::Instance = new WSServer();
-	WSEvents::Instance = new WSEvents(WSServer::Instance);
+	auto server = WSServer::Current();
+	auto events = WSEvents::Reset(new WSEvents(server));
 
-	if (config->ServerEnabled)
-		WSServer::Instance->Start(config->ServerPort);
+	if (config->ServerEnabled) {
+		server->Start(config->ServerPort);
+	}
 
 	// UI setup
 	QAction* menu_action = (QAction*)obs_frontend_add_tools_menu_qaction(
