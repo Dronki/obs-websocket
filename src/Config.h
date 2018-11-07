@@ -20,9 +20,13 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #define CONFIG_H
 
 #include <QString>
+#include <QSharedPointer>
 
 #include <mbedtls/entropy.h>
 #include <mbedtls/ctr_drbg.h>
+
+class Config;
+typedef QSharedPointer<Config> ConfigPtr;
 
 class Config {
 	public:
@@ -49,10 +53,10 @@ class Config {
 		QString SessionChallenge;
 		bool SettingsLoaded;
 
-		static Config* Current();
+		static ConfigPtr Current();
 
 	private:
-		static Config* _instance;
+		static ConfigPtr _instance;
 		mbedtls_entropy_context entropy;
 		mbedtls_ctr_drbg_context rng;
 };
